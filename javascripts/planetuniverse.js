@@ -8,12 +8,15 @@ function Universe(){
     this.planetMaterial = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture("images/planet.png") } );
     this.wireframeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe: true } );
 
+    this.speed = 1000.0;
+
 //     this.selectedHighlight = new THREE.Mesh(this.wireframeSphere, this.wireframeMaterial);
 //     this.scene.add(this.selectedHighlight);
 
     this.planets = [];
 
     this.advance = function(time) {
+        time *= this.speed;
         for(var i = 0; i < this.planets.length; ++i) {
             var planet = this.planets[i];
             for(var o = i + 1; o < this.planets.length; ++o) {

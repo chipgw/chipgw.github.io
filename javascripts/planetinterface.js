@@ -22,10 +22,10 @@ function animate(time) {
     if(lastTime == null){
         lastTime = time;
     }
-    var delta = time - lastTime;
+    var delta = Math.min(time - lastTime, 10.0);
     lastTime = time;
 
-    universe.advance(delta * 100);
+    universe.advance(delta);
 
     renderer.render(universe.scene, camera);
 
