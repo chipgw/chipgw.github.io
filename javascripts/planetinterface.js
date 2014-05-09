@@ -8,30 +8,32 @@ function init() {
     document.body.appendChild(renderer.domElement);
 
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000000);
-    camera.position.z = 32;
+    camera.position.z = 64;
 
     universe = new Universe();
 
-    new Planet(universe, new THREE.Vector3(), new THREE.Vector3(), 128);
-    new Planet(universe, new THREE.Vector3(16,0,0), new THREE.Vector3(), 64);
+    new Planet(universe, new THREE.Vector3(-16), new THREE.Vector3(0, -0.000005), 256);
+    new Planet(universe, new THREE.Vector3(16), new THREE.Vector3(0, 0.00002), 64);
 }
 
-var lastTime = new Date().getTime();
+var lastTime = null;
 
 function animate(time) {
-    requestAnimationFrame(animate);
-
+    if(lastTime == null){
+        lastTime = time;
+    }
     var delta = time - lastTime;
     lastTime = time;
 
-    //mesh.rotation.x += delta * 0.00005;
-    //mesh.rotation.y += delta * 0.0001;
+    universe.advance(delta * 100);
 
     renderer.render(universe.scene, camera);
+
+    requestAnimationFrame(animate);
 }
 
 init();
-animate(new Date().getTime());
+requestAnimationFrame(animate);
 
 window.onresize = function(event) {
     renderer.setSize(window.innerWidth, window.innerHeight);
