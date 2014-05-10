@@ -1,4 +1,4 @@
-var camera, renderer;
+var camera, controls, renderer;
 var universe;
 
 function init() {
@@ -9,6 +9,8 @@ function init() {
 
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000000);
     camera.position.z = 64;
+
+    controls = new THREE.OrbitControls(camera);
 
     universe = new Universe();
 
@@ -26,6 +28,8 @@ function animate(time) {
     lastTime = time;
 
     universe.advance(delta);
+
+    controls.update();
 
     renderer.render(universe.scene, camera);
 
