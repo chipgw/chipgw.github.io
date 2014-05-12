@@ -69,8 +69,8 @@ function Universe(){
 
     this.loadFile = function(filename) {
         var universe = this;
-
         var reader = new FileReader();
+
         reader.onload = function() {
             universe.loadString(this.result);
         };
@@ -78,10 +78,15 @@ function Universe(){
     }
 
     this.loadString = function(data) {
-        this.clear();
-
         var parsed = new DOMParser().parseFromString(data, "text/xml");
         var planetsXML = parsed.getElementsByTagName("planet");
+
+        if(planetsXML.length == 0){
+            alert("Error loading simulation: no planets found!\nIs the file a valid universe file?");
+            return;
+        }
+
+        this.clear();
 
         for(var i = 0; i < planetsXML.length; ++i) {
             var planetXML = planetsXML[i];
