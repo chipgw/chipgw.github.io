@@ -44,3 +44,5 @@ window.onresize = function(event) {
     camera.aspect = window.innerWidth / window.innerHeight
     camera.updateProjectionMatrix();
 };
+
+document.getElementById("loadfile").addEventListener("change", function(e) { universe.loadFile(e.target.files[0]); }, false);

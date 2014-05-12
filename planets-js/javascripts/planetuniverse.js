@@ -1,5 +1,12 @@
+function parseVector3(node) {
+    /* Z is up in files, Y is up in three.js, so we switch them. */
+    return new THREE.Vector3(parseFloat(node.getAttribute("x")), parseFloat(node.getAttribute("z")), parseFloat(node.getAttribute("y")));
+}
+
 function Universe(){
     const GRAVITY_CONST = 6.67e-11;
+    const VELOCITY_UI_FACTOR = 1.0e-5;
+
     this.scene = new THREE.Scene();
 
     this.sphere = new THREE.SphereGeometry(1, 64, 32);
@@ -52,5 +59,40 @@ function Universe(){
             this.scene.remove(this.planets[index].mesh);
             this.planets.splice(index, 1);
         }
+    }
+
+    this.clear = function() {
+        while(this.planets.length != 0) {
+            this.remove(0);
+        }
+    }
+
+    this.loadFile = function(filename) {
+        var universe = this;
+
+        var reader = new FileReader();
+        reader.onload = function() {
+            universe.loadString(this.result);
+        };
+        reader.readAsText(filename);
+    }
+
+    this.loadString = function(data) {
+        this.clear();
+
+        var parsed = new DOMParser().parseFromString(data, "text/xml");
+        var planetsXML = parsed.getElementsByTagName("planet");
+
+        for(var i = 0; i < planetsXML.length; ++i) {
+            var planetXML = planetsXML[i];
+
+            var position = parseVector3(planetXML.getElementsByTagName("position")[0]);
+            var velocity = parseVector3(planetXML.getElementsByTagName("velocity")[0]);
+            var mass = parseFloat(planetXML.getAttribute("mass"));
+
+            var planet = new Planet(this, position, velocity.multiplyScalar(VELOCITY_UI_FACTOR), mass);
+        }
+
+        console.log("loaded " + planetsXML.length + " planets.");
     }
 }
