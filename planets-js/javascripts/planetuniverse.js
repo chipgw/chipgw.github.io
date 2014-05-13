@@ -3,7 +3,7 @@ function parseVector3(node) {
     return new THREE.Vector3(parseFloat(node.getAttribute("x")), parseFloat(node.getAttribute("z")), parseFloat(node.getAttribute("y")));
 }
 
-function Universe(){
+function Universe() {
     const GRAVITY_CONST = 6.67e-11;
     const VELOCITY_UI_FACTOR = 1.0e-5;
 
@@ -29,11 +29,10 @@ function Universe(){
             for(var o = i + 1; o < this.planets.length; ++o) {
                 var other = this.planets[o];
 
-                var direction = new THREE.Vector3();
-                direction.subVectors(other.mesh.position, planet.mesh.position);
+                var direction = other.mesh.position.clone().sub(planet.mesh.position);
                 var distancesqr = direction.lengthSq();
 
-                if(distancesqr < Math.pow(planet.radius + other.radius, 2)){
+                if(distancesqr < Math.pow(planet.radius + other.radius, 2)) {
                     planet.mesh.position.addVectors(other.mesh.position.multiplyScalar(other.mass), planet.mesh.position.multiplyScalar(planet.mass));
                     planet.velocity.addVectors(other.velocity.multiplyScalar(other.mass), planet.velocity.multiplyScalar(planet.mass));
                     planet.mass += other.mass;
@@ -41,7 +40,7 @@ function Universe(){
                     planet.mesh.position.divideScalar(planet.mass);
                     planet.velocity.divideScalar(planet.mass);
                     this.remove(o);
-                }else{
+                } else {
                     direction.setLength(GRAVITY_CONST * ((other.mass * planet.mass) / distancesqr) * time);
 
                     planet.velocity.add(direction.clone().divideScalar(planet.mass));
