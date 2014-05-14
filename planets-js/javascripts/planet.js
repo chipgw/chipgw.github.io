@@ -1,4 +1,3 @@
-/* TODO - make it so changing this actually works... */
 var pathLength = 256;
 var pathRecordDistance = 1.0;
 
@@ -15,6 +14,9 @@ function Planet(universe, pos, vel, m) {
     }
 
     this.updatePath = function() {
+        if(this.path == undefined || this.path.vertices.length != pathLength){
+            this.resetPath();
+        }
         if(this.mesh.position.distanceToSquared(this.path.vertices[0]) > pathRecordDistance) {
             this.path.vertices.pop();
             this.path.vertices.unshift(this.mesh.position.clone());
@@ -27,14 +29,20 @@ function Planet(universe, pos, vel, m) {
     universe.scene.add(this.mesh);
     universe.planets.push(this);
 
-    this.path = new THREE.Geometry();
-    while(this.path.vertices.length < pathLength) {
-        this.path.vertices.push(pos.clone());
-    }
-    this.path.dynamic = true;
+    this.resetPath = function() {
+        this.path = new THREE.Geometry();
+        while(this.path.vertices.length < pathLength) {
+            this.path.vertices.push(this.mesh.position.clone());
+        }
+        this.path.dynamic = true;
 
-    this.line = new THREE.Line(this.path, universe.lineMaterial);
-    universe.scene.add(this.line);
+        if(this.line != null) {
+            universe.scene.remove(this.line);
+        }
+
+        this.line = new THREE.Line(this.path, universe.lineMaterial);
+        universe.scene.add(this.line);
+    }
 
     this.updateRadius();
 }
