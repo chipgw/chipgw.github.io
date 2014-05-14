@@ -14,6 +14,7 @@ function Universe() {
 
     this.planetMaterial = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture("images/planet.png") } );
     this.wireframeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe: true } );
+    this.lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
 
     this.speed = 1000.0;
 
@@ -49,13 +50,14 @@ function Universe() {
             }
 
             planet.mesh.position.add(planet.velocity.clone().multiplyScalar(time));
-            //planet.updatePath();
+            planet.updatePath();
         }
     }
 
     this.remove = function(index) {
         if(index < this.planets.length) {
             this.scene.remove(this.planets[index].mesh);
+            this.scene.remove(this.planets[index].line);
             this.planets.splice(index, 1);
         }
     }
