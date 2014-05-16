@@ -6,9 +6,18 @@
   </head>
   <body style="background-color: #010204; margin: 0; overflow: hidden;">
     <!-- TODO - make a proper interface. -->
-    <div style="position: absolute;">
-        <input type="file" id="loadfile"/>
+
+    <!-- Elements used for logic that should not be seen. -->
+    <div style="position: fixed; display: none;">
+      <form id="loadFileForm">
+        <input type="file" id="loadFile"/>
+      </form>
     </div>
+
+    <div style="position: fixed;">
+      <input type="button" id="menuOpenFile" value="Open File"/>
+    </div>
+
     <script src="javascripts/three.min.js"></script>
     <script src="javascripts/OrbitControls.js"></script>
     <script src="javascripts/planet.js"></script>

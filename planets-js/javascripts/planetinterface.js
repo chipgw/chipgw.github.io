@@ -45,4 +45,11 @@ window.onresize = function(event) {
     camera.updateProjectionMatrix();
 };
 
-document.getElementById("loadfile").addEventListener("change", function(e) { universe.loadFile(e.target.files[0]); }, false);
+document.getElementById("loadFile").addEventListener("change", function(e) {
+    universe.loadFile(e.target.files[0]);
+    document.getElementById("loadFileForm").reset();
+}, false);
+
+document.getElementById("menuOpenFile").addEventListener("click", function(e) {
+    document.getElementById("loadFile").click();
+}, false);
