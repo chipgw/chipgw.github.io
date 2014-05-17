@@ -1,0 +1,13 @@
+body {
+    background-color: #010204;
+    margin: 0;
+    overflow: hidden;
+}
+
+.hide {
+    position: fixed; display: none;   
+}
+
+.menu {
+    position: fixed;
+}

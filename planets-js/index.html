@@ -3,18 +3,19 @@
   <head>
     <title>planets-js by chipgw</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/planetsui.css"/>
   </head>
-  <body style="background-color: #010204; margin: 0; overflow: hidden;">
+  <body>
     <!-- TODO - make a proper interface. -->
 
     <!-- Elements used for logic that should not be seen. -->
-    <div style="position: fixed; display: none;">
+    <div class="hide">
       <form id="loadFileForm">
         <input type="file" id="loadFile"/>
       </form>
     </div>
 
-    <div style="position: fixed;">
+    <div class="menu">
       <input type="button" id="menuOpenFile" value="Open File"/>
     </div>
 
