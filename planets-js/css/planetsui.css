@@ -12,3 +12,42 @@ body {
 .menu {
     position: fixed;
 }
+
+#popupBar {
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+
+#popupBar div {
+    display: none;
+    z-index: 20;
+    margin: 8px;
+    padding: 2px;
+    background-color: #ddd;
+}
+
+#popupBar h1 {
+    font-weight: bold;
+    font-size: 24px;
+    margin: 4px;
+    border-bottom: 2px solid black;
+}
+
+.popupClose {
+    /* TODO - use an icon instead of text 'x'. */
+    float: right;
+}
+
+.tableInput {
+    width: 100%;
+}
+
+#createPlanetPopup table tr th {
+    width: 40px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-weight: normal;
+    text-align: left;
+    font-size: 14px;
+}

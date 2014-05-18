@@ -53,3 +53,27 @@ document.getElementById("loadFile").addEventListener("change", function(e) {
 document.getElementById("menuOpenFile").addEventListener("click", function(e) {
     document.getElementById("loadFile").click();
 }, false);
+
+document.getElementById("menuCreatePlanet").addEventListener("click", function(e) {
+    var style = document.getElementById("createPlanetPopup").style;
+    if (style.display == "block") {
+        style.display = "none";
+    } else {
+        style.display = "block";
+    }
+}, false);
+
+document.getElementById("createPlanetButton").addEventListener("click", function(e) {
+    var positionX = parseFloat(document.getElementById("createPositionX").value);
+    var positionY = parseFloat(document.getElementById("createPositionZ").value);
+    var positionZ = parseFloat(document.getElementById("createPositionY").value);
+    var velocityX = parseFloat(document.getElementById("createVelocityX").value) * VELOCITY_UI_FACTOR;
+    var velocityY = parseFloat(document.getElementById("createVelocityZ").value) * VELOCITY_UI_FACTOR;
+    var velocityZ = parseFloat(document.getElementById("createVelocityY").value) * VELOCITY_UI_FACTOR;
+    var mass = parseFloat(document.getElementById("createMass").value);
+    new Planet(universe, new THREE.Vector3(positionX, positionY, positionZ), new THREE.Vector3(velocityX, velocityY, velocityZ), mass);
+}, false);
+
+document.getElementById("createPlanetClose").addEventListener("click", function(e) {
+    document.getElementById("createPlanetPopup").style.display = "none";
+}, false);
