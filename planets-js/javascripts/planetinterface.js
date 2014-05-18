@@ -10,7 +10,7 @@ function init() {
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000000);
     camera.position.z = 64;
 
-    controls = new THREE.OrbitControls(camera);
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
 
     universe = new Universe();
 
