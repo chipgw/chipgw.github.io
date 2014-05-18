@@ -5,7 +5,8 @@ body {
 }
 
 .hide {
-    position: fixed; display: none;   
+    position: fixed;
+    display: none;
 }
 
 .menu {

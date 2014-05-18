@@ -3,10 +3,10 @@ function parseVector3(node) {
     return new THREE.Vector3(parseFloat(node.getAttribute("x")), parseFloat(node.getAttribute("z")), parseFloat(node.getAttribute("y")));
 }
 
-function Universe() {
-    const GRAVITY_CONST = 6.67e-11;
-    const VELOCITY_UI_FACTOR = 1.0e-5;
+const GRAVITY_CONST = 6.67e-11;
+const VELOCITY_UI_FACTOR = 1.0e-5;
 
+function Universe() {
     this.scene = new THREE.Scene();
 
     this.sphere = new THREE.SphereGeometry(1, 64, 32);
