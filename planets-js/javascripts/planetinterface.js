@@ -54,6 +54,8 @@ document.getElementById("menuOpenFile").addEventListener("click", function(e) {
     document.getElementById("loadFile").click();
 }, false);
 
+/* Start Create Planet Popup Controls */
+
 document.getElementById("menuCreatePlanet").addEventListener("click", function(e) {
     var style = document.getElementById("createPlanetPopup").style;
     if (style.display == "block") {
@@ -77,3 +79,53 @@ document.getElementById("createPlanetButton").addEventListener("click", function
 document.getElementById("createPlanetClose").addEventListener("click", function(e) {
     document.getElementById("createPlanetPopup").style.display = "none";
 }, false);
+
+/* End Create Planet Popup Controls */
+
+/* Start Speed Popup Controls */
+
+document.getElementById("menuSpeedControl").addEventListener("click", function(e) {
+    var style = document.getElementById("speedPopup").style;
+    if (style.display == "block") {
+        style.display = "none";
+    } else {
+        style.display = "block";
+    }
+}, false);
+
+document.getElementById("speedPopup").style.display = "block";
+
+document.getElementById("speedPopupClose").addEventListener("click", function(e) {
+    document.getElementById("speedPopup").style.display = "none";
+}, false);
+
+document.getElementById("speedRange").addEventListener("input", function(e) {
+    universe.speed = parseFloat(e.target.value);
+}, false);
+
+document.getElementById("speedPauseResume").addEventListener("click", function(e) {
+    var range = document.getElementById("speedRange");
+    if (range.value == 0) {
+        /* TODO - store previous value toresume to. */
+        range.value = 1000;
+        e.target.value = "Pause";
+    } else {
+        range.value = 0;
+        e.target.value = "Resume";
+    }
+    universe.speed = parseFloat(range.value);
+}, false);
+
+document.getElementById("speedFastForward").addEventListener("click", function(e) {
+    var range = document.getElementById("speedRange");
+    if (range.value == 0 || range.value == range.max) {
+        /* TODO - store previous value toresume to. */
+        range.value = 1000;
+    } else {
+        range.value = range.value * 2;
+    }
+    document.getElementById("speedPauseResume").value = "Pause";
+    universe.speed = parseFloat(range.value);
+}, false);
+
+/* End Speed Popup Controls */
