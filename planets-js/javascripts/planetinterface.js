@@ -13,9 +13,6 @@ function init() {
     controls = new THREE.OrbitControls(camera, renderer.domElement);
 
     universe = new Universe();
-
-    new Planet(universe, new THREE.Vector3(-16), new THREE.Vector3(0, -0.000005), 256);
-    new Planet(universe, new THREE.Vector3(16), new THREE.Vector3(0, 0.00002), 64);
 }
 
 var lastTime = null;
