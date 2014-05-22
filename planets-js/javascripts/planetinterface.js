@@ -4,7 +4,7 @@ var universe;
 function init() {
     renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x010204);
+    renderer.setClearColor(0x040406);
     document.body.appendChild(renderer.domElement);
 
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000000);
