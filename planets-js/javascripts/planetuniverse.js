@@ -74,13 +74,19 @@ function Universe() {
         var reader = new FileReader();
 
         reader.onload = function() {
-            universe.loadString(this.result);
+            universe.loadDOM(new DOMParser().parseFromString(this.result, "text/xml"));
         };
         reader.readAsText(filename);
     }
 
-    this.loadString = function(data) {
-        var parsed = new DOMParser().parseFromString(data, "text/xml");
+    this.loadUrl = function(url) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", url, false);
+        xmlHttp.send(null);
+        this.loadDOM(xmlHttp.responseXML);
+    }
+
+    this.loadDOM = function(parsed) {
         var planetsXML = parsed.getElementsByTagName("planet");
 
         if(planetsXML.length == 0){
