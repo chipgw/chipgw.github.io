@@ -13,6 +13,10 @@ function init() {
     controls = new THREE.OrbitControls(camera, renderer.domElement);
 
     universe = new Universe();
+
+    try {
+        universe.loadUrl("systems/default.xml");
+    } catch (e) { }
 }
 
 var lastTime = null;
