@@ -46,6 +46,8 @@ window.onresize = function(event) {
     camera.updateProjectionMatrix();
 };
 
+/* Start File IO Functions */
+
 document.getElementById("loadFile").addEventListener("change", function(e) {
     universe.loadFile(e.target.files[0]);
     document.getElementById("loadFileForm").reset();
@@ -54,6 +56,24 @@ document.getElementById("loadFile").addEventListener("change", function(e) {
 document.getElementById("menuOpenFile").addEventListener("click", function(e) {
     document.getElementById("loadFile").click();
 }, false);
+
+/* End File IO Functions */
+
+/* Start Simple Menu Items */
+
+document.getElementById("menuClear").addEventListener("click", function(e) {
+    var clear = confirm("Are you sure you want to destroy the universe?")
+
+    if (clear) {
+       universe.clear();
+    }
+}, false);
+
+document.getElementById("menuCenter").addEventListener("click", function(e) {
+    universe.center();
+}, false);
+
+/* End Simple Menu Items */
 
 /* Start Create Planet Popup Controls */
 
