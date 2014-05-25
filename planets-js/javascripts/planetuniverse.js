@@ -69,6 +69,31 @@ function Universe() {
         }
     }
 
+    this.center = function() {
+        var averagePosition = new THREE.Vector3(0.0, 0.0, 0.0);
+        var averageVelocity = new THREE.Vector3(0.0, 0.0, 0.0);
+        var totalMass = 0.0;
+
+        for(var i = 0; i < this.planets.length; ++i) {
+            var planet = this.planets[i];
+
+            averagePosition.add(planet.mesh.position.clone().multiplyScalar(planet.mass));
+            averageVelocity.add(planet.velocity.clone().multiplyScalar(planet.mass));
+            totalMass += planet.mass;
+        }
+
+        averagePosition.divideScalar(totalMass);
+        averageVelocity.divideScalar(totalMass);
+
+        for(var i = 0; i < this.planets.length; ++i) {
+            var planet = this.planets[i];
+
+            planet.mesh.position.sub(averagePosition);
+            planet.velocity.sub(averageVelocity);
+            planet.resetPath();
+        }
+    }
+
     this.loadFile = function(filename) {
         var universe = this;
         var reader = new FileReader();
