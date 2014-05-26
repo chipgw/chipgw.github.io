@@ -24,34 +24,37 @@ function Universe() {
     this.planets = [];
 
     this.advance = function(time) {
-        time *= this.speed;
-        for(var i = 0; i < this.planets.length; ++i) {
-            var planet = this.planets[i];
-            for(var o = i + 1; o < this.planets.length; ++o) {
-                var other = this.planets[o];
+        var steps = Math.ceil(this.speed / 1000.0);
+        time *= this.speed / steps;
+        for(var step = 0; step < steps; step++) {
+            for(var i = 0; i < this.planets.length; ++i) {
+                var planet = this.planets[i];
+                for(var o = i + 1; o < this.planets.length; ++o) {
+                    var other = this.planets[o];
 
-                var direction = other.mesh.position.clone().sub(planet.mesh.position);
-                var distancesqr = direction.lengthSq();
+                    var direction = other.mesh.position.clone().sub(planet.mesh.position);
+                    var distancesqr = direction.lengthSq();
 
-                if(distancesqr < Math.pow(planet.radius + other.radius, 2)) {
-                    planet.mesh.position.addVectors(other.mesh.position.multiplyScalar(other.mass), planet.mesh.position.multiplyScalar(planet.mass));
-                    planet.velocity.addVectors(other.velocity.multiplyScalar(other.mass), planet.velocity.multiplyScalar(planet.mass));
-                    planet.mass += other.mass;
-                    planet.updateRadius();
-                    planet.mesh.position.divideScalar(planet.mass);
-                    planet.velocity.divideScalar(planet.mass);
-                    planet.resetPath();
-                    this.remove(o);
-                } else {
-                    direction.setLength(GRAVITY_CONST * ((other.mass * planet.mass) / distancesqr) * time);
+                    if(distancesqr < Math.pow(planet.radius + other.radius, 2)) {
+                        planet.mesh.position.addVectors(other.mesh.position.multiplyScalar(other.mass), planet.mesh.position.multiplyScalar(planet.mass));
+                        planet.velocity.addVectors(other.velocity.multiplyScalar(other.mass), planet.velocity.multiplyScalar(planet.mass));
+                        planet.mass += other.mass;
+                        planet.updateRadius();
+                        planet.mesh.position.divideScalar(planet.mass);
+                        planet.velocity.divideScalar(planet.mass);
+                        planet.resetPath();
+                        this.remove(o);
+                    } else {
+                        direction.setLength(GRAVITY_CONST * ((other.mass * planet.mass) / distancesqr) * time);
 
-                    planet.velocity.add(direction.clone().divideScalar(planet.mass));
-                    other.velocity.sub(direction.clone().divideScalar(other.mass));
+                        planet.velocity.add(direction.clone().divideScalar(planet.mass));
+                        other.velocity.sub(direction.clone().divideScalar(other.mass));
+                    }
                 }
-            }
 
-            planet.mesh.position.add(planet.velocity.clone().multiplyScalar(time));
-            planet.updatePath();
+                planet.mesh.position.add(planet.velocity.clone().multiplyScalar(time));
+                planet.updatePath();
+            }
         }
     }
 
