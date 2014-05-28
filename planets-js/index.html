@@ -21,6 +21,7 @@
       <input type="button" id="menuCreatePlanet" value="Create Planet">
       <input type="button" id="menuClear" value="Clear Universe">
       <input type="button" id="menuCenter" value="Center Universe">
+      <input type="button" id="menuView" value="View Settings">
     </div>
 
     <div id="popupBar">
@@ -34,6 +35,15 @@
             <!-- TODO - add icons to buttons -->
             <th><input type="button" class="tableInput" id="speedPauseResume" value="Pause"></th>
             <th><input type="button" class="tableInput" id="speedFastForward" value="Fast Forward"></th>
+          </tr>
+        </table>
+      </div>
+      <div id="viewPopup">
+        <h1>View Settings <input type="button" class="popupClose" id="viewPopupClose" value="x"></h1>
+        <table>
+          <tr>
+            <th>Path Length:</th>
+            <th><input type="range" class="tableInput" id="pathLength" min="0" max="4096" value="256"></th>
           </tr>
         </table>
       </div>

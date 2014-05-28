@@ -15,6 +15,7 @@ function Planet(universe, pos, vel, m) {
 
     this.updatePath = function() {
         if(this.path == undefined || this.path.vertices.length != pathLength){
+            /* TODO - make it keep the old path when resizing. */
             this.resetPath();
         }
         if(this.mesh.position.distanceToSquared(this.path.vertices[0]) > pathRecordDistance) {

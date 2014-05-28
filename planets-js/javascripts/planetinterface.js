@@ -150,3 +150,24 @@ document.getElementById("speedFastForward").addEventListener("click", function(e
 }, false);
 
 /* End Speed Popup Controls */
+
+/* Start View Settings */
+
+document.getElementById("menuView").addEventListener("click", function(e) {
+    var style = document.getElementById("viewPopup").style;
+    if (style.display == "block") {
+        style.display = "none";
+    } else {
+        style.display = "block";
+    }
+}, false);
+
+document.getElementById("viewPopupClose").addEventListener("click", function(e) {
+    document.getElementById("viewPopup").style.display = "none";
+}, false);
+
+document.getElementById("pathLength").addEventListener("change", function(e) {
+    pathLength = parseFloat(e.target.value);
+}, false);
+
+/* End View Settings */
