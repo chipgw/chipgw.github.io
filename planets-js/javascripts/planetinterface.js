@@ -1,11 +1,10 @@
-var camera, controls, renderer;
-var universe;
+var camera, controls, renderer, canvas, universe;
 
 function init() {
     renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x040406);
-    document.body.appendChild(renderer.domElement);
+    canvas = document.body.appendChild(renderer.domElement);
 
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000000);
     camera.position.z = 64;
@@ -55,6 +54,24 @@ document.getElementById("loadFile").addEventListener("change", function(e) {
 
 document.getElementById("menuOpenFile").addEventListener("click", function(e) {
     document.getElementById("loadFile").click();
+}, false);
+
+canvas.addEventListener("dragenter", function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+}, false);
+
+canvas.addEventListener("dragover", function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+}, false);
+
+canvas.addEventListener("drop", function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    if (e.dataTransfer.files.length > 0) {
+        universe.loadFile(e.dataTransfer.files[0]);
+    }
 }, false);
 
 /* End File IO Functions */
