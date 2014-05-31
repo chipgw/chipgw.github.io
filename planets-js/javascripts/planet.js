@@ -14,9 +14,10 @@ function Planet(universe, pos, vel, m) {
     }
 
     this.updatePath = function() {
-        if(this.path == undefined || this.path.vertices.length != pathLength){
-            /* TODO - make it keep the old path when resizing. */
+        if(this.path == undefined) {
             this.resetPath();
+        } else if(this.path.vertices.length != pathLength){
+            this.resizePath();
         }
         if(pathLength > 0 && this.mesh.position.distanceToSquared(this.path.vertices[0]) > pathRecordDistance) {
             this.path.vertices.pop();
@@ -34,6 +35,29 @@ function Planet(universe, pos, vel, m) {
         this.path = new THREE.Geometry();
         while(this.path.vertices.length < pathLength) {
             this.path.vertices.push(this.mesh.position.clone());
+        }
+        this.path.dynamic = true;
+
+        if(this.line != null) {
+            universe.scene.remove(this.line);
+        }
+
+        this.line = new THREE.Line(this.path, universe.lineMaterial);
+        universe.scene.add(this.line);
+    }
+
+    this.resizePath = function() {
+        var oldPath = this.path;
+
+        this.path = new THREE.Geometry();
+
+        this.path.vertices = oldPath.vertices;
+
+        if(this.path.vertices.length > pathLength) {
+            this.path.vertices.splice(pathLength, this.path.vertices.length - pathLength);
+        }
+        while(this.path.vertices.length < pathLength) {
+            this.path.vertices.unshift(this.mesh.position.clone());
         }
         this.path.dynamic = true;
 
