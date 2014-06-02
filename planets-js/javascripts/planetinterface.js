@@ -43,15 +43,27 @@ function initMenu() {
     }, false);
 }
 
-function initCreatePlanetPopup() {
-    document.getElementById("menuCreatePlanet").addEventListener("click", function(e) {
-        var style = document.getElementById("createPlanetPopup").style;
-        if (style.display == "block") {
+function initPopup(name, visible) {
+    var popup = document.getElementById(name);
+    var style = popup.children[1].style;
+
+    popup.children[0].addEventListener("click", function(e) {
+        if (style.display == "table") {
             style.display = "none";
         } else {
-            style.display = "block";
+            style.display = "table";
         }
     }, false);
+
+    if(visible) {
+        style.display = "table";
+    } else {
+        style.display = "none";
+    }
+}
+
+function initCreatePlanetPopup() {
+    initPopup("createPlanetPopup");
 
     document.getElementById("createPlanetButton").addEventListener("click", function(e) {
         var positionX = parseFloat(document.getElementById("createPositionX").value);
@@ -63,27 +75,10 @@ function initCreatePlanetPopup() {
         var mass = parseFloat(document.getElementById("createMass").value);
         new Planet(universe, new THREE.Vector3(positionX, positionY, positionZ), new THREE.Vector3(velocityX, velocityY, velocityZ), mass);
     }, false);
-
-    document.getElementById("createPlanetClose").addEventListener("click", function(e) {
-        document.getElementById("createPlanetPopup").style.display = "none";
-    }, false);
 }
 
 function initSpeedPopup() {
-    document.getElementById("menuSpeedControl").addEventListener("click", function(e) {
-        var style = document.getElementById("speedPopup").style;
-        if (style.display == "block") {
-            style.display = "none";
-        } else {
-            style.display = "block";
-        }
-    }, false);
-
-    document.getElementById("speedPopup").style.display = "block";
-
-    document.getElementById("speedPopupClose").addEventListener("click", function(e) {
-        document.getElementById("speedPopup").style.display = "none";
-    }, false);
+    initPopup("speedPopup", true);
 
     document.getElementById("speedRange").addEventListener("input", function(e) {
         universe.speed = parseFloat(e.target.value);
@@ -116,18 +111,7 @@ function initSpeedPopup() {
 }
 
 function initViewSettings() {
-    document.getElementById("menuView").addEventListener("click", function(e) {
-        var style = document.getElementById("viewPopup").style;
-        if (style.display == "block") {
-            style.display = "none";
-        } else {
-            style.display = "block";
-        }
-    }, false);
-
-    document.getElementById("viewPopupClose").addEventListener("click", function(e) {
-        document.getElementById("viewPopup").style.display = "none";
-    }, false);
+    initPopup("viewPopup");
 
     document.getElementById("pathLength").addEventListener("change", function(e) {
         pathLength = parseFloat(e.target.value);
