@@ -62,7 +62,7 @@ function initPopup(name, visible) {
         }
     }
 
-    popup.children[0].addEventListener("click", toggle, false);
+    popup.children[0].addEventListener("dblclick", toggle, false);
     toggleButton.addEventListener("click", toggle, false);
 
     if(visible) {
