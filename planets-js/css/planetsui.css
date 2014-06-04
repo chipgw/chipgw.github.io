@@ -67,6 +67,11 @@ input[type="range"] {
     font-size: 14px;
 }
 
+.popupToggle {
+    width: 100%;
+    font-size: 8px;
+}
+
 .tableInput {
     width: 100%;
 }

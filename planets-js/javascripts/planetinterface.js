@@ -47,18 +47,30 @@ function initPopup(name, visible) {
     var popup = document.getElementById(name);
     var style = popup.children[1].style;
 
-    popup.children[0].addEventListener("click", function(e) {
+    var toggleButton = document.createElement("input");
+    toggleButton.setAttribute("type", "button");
+    toggleButton.setAttribute("class", "popupToggle");
+    popup.appendChild(toggleButton);
+
+    function toggle(e) {
         if (style.display == "table") {
             style.display = "none";
+            toggleButton.setAttribute("value", "\u25BC");
         } else {
             style.display = "table";
+            toggleButton.setAttribute("value", "\u25B2");
         }
-    }, false);
+    }
+
+    popup.children[0].addEventListener("click", toggle, false);
+    toggleButton.addEventListener("click", toggle, false);
 
     if(visible) {
         style.display = "table";
+        toggleButton.setAttribute("value", "\u25B2");
     } else {
         style.display = "none";
+        toggleButton.setAttribute("value", "\u25BC");
     }
 }
 
