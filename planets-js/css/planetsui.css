@@ -51,8 +51,16 @@ input[type="range"] {
     font-weight: bold;
     font-size: 24px;
     margin: 4px;
+    margin-bottom: 0px;
     border-bottom: 2px solid black;
     cursor: pointer;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 #popupBar div table {
