@@ -47,23 +47,20 @@ function Planet(universe, pos, vel, m) {
     }
 
     this.resizePath = function() {
-        var oldPath = this.path;
+        var oldPath = this.path.vertices;
 
         this.path = new THREE.Geometry();
 
-        this.path.vertices = oldPath.vertices;
+        this.path.vertices = oldPath;
 
         if(this.path.vertices.length > pathLength) {
             this.path.vertices.splice(pathLength, this.path.vertices.length - pathLength);
-        }
-        while(this.path.vertices.length < pathLength) {
+        } else while(this.path.vertices.length < pathLength) {
             this.path.vertices.unshift(this.mesh.position.clone());
         }
         this.path.dynamic = true;
 
-        if(this.line != null) {
-            universe.scene.remove(this.line);
-        }
+        universe.scene.remove(this.line);
 
         this.line = new THREE.Line(this.path, universe.lineMaterial);
         universe.scene.add(this.line);
