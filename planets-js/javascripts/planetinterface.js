@@ -130,6 +130,30 @@ function initViewSettings() {
     }, false);
 }
 
+function initRandomPopup() {
+    initPopup("randomPopup");
+
+    document.getElementById("randomGenerateButton").addEventListener("click", function(e) {
+        var amount = parseInt(document.getElementById("randomAmount").value);
+        var range = parseFloat(document.getElementById("randomRange").value);
+        var maxSpeed = parseFloat(document.getElementById("randomSpeed").value) * VELOCITY_UI_FACTOR;
+        var maxMass = parseFloat(document.getElementById("randomMass").value);
+
+        function rand() {
+            return Math.random() * 2.0 - 1.0;
+        }
+
+        for(var i = 0; i < amount; ++i) {
+            var position = new THREE.Vector3(rand() * range, rand() * range, rand() * range);
+            var velocity = new THREE.Vector3(rand(), rand(), rand());
+            velocity.normalize();
+            velocity.multiplyScalar(rand() * maxSpeed);
+            var mass = rand() * maxMass;
+            new Planet(universe, position, velocity, mass)
+        }
+    }, false);
+}
+
 function init() {
     renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -154,6 +178,7 @@ function init() {
     initCreatePlanetPopup();
     initSpeedPopup();
     initViewSettings();
+    initRandomPopup();
 
     try {
         universe.loadUrl("systems/default.xml");
