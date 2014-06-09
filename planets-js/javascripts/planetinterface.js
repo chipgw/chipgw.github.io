@@ -134,7 +134,7 @@ function initRandomPopup() {
     initPopup("randomPopup");
 
     document.getElementById("randomGenerateButton").addEventListener("click", function(e) {
-        var amount = parseInt(document.getElementById("randomAmount").value);
+        var amount = Math.min(parseInt(document.getElementById("randomAmount").value), 50);
         var range = parseFloat(document.getElementById("randomRange").value);
         var maxSpeed = parseFloat(document.getElementById("randomSpeed").value) * VELOCITY_UI_FACTOR;
         var maxMass = parseFloat(document.getElementById("randomMass").value);
