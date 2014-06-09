@@ -148,7 +148,7 @@ function initRandomPopup() {
             var velocity = new THREE.Vector3(rand(), rand(), rand());
             velocity.normalize();
             velocity.multiplyScalar(rand() * maxSpeed);
-            var mass = rand() * maxMass;
+            var mass = Math.random() * maxMass;
             new Planet(universe, position, velocity, mass)
         }
     }, false);
