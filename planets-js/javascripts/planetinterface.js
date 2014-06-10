@@ -74,21 +74,6 @@ function initPopup(name, visible) {
     }
 }
 
-function initCreatePlanetPopup() {
-    initPopup("createPlanetPopup");
-
-    document.getElementById("createPlanetButton").addEventListener("click", function(e) {
-        var positionX = parseFloat(document.getElementById("createPositionX").value);
-        var positionY = parseFloat(document.getElementById("createPositionZ").value);
-        var positionZ = parseFloat(document.getElementById("createPositionY").value);
-        var velocityX = parseFloat(document.getElementById("createVelocityX").value) * VELOCITY_UI_FACTOR;
-        var velocityY = parseFloat(document.getElementById("createVelocityZ").value) * VELOCITY_UI_FACTOR;
-        var velocityZ = parseFloat(document.getElementById("createVelocityY").value) * VELOCITY_UI_FACTOR;
-        var mass = parseFloat(document.getElementById("createMass").value);
-        new Planet(universe, new THREE.Vector3(positionX, positionY, positionZ), new THREE.Vector3(velocityX, velocityY, velocityZ), mass);
-    }, false);
-}
-
 function initSpeedPopup() {
     initPopup("speedPopup", true);
 
@@ -127,6 +112,21 @@ function initViewSettings() {
 
     document.getElementById("pathLength").addEventListener("change", function(e) {
         pathLength = parseFloat(e.target.value);
+    }, false);
+}
+
+function initCreatePlanetPopup() {
+    initPopup("createPlanetPopup");
+
+    document.getElementById("createPlanetButton").addEventListener("click", function(e) {
+        var positionX = parseFloat(document.getElementById("createPositionX").value);
+        var positionY = parseFloat(document.getElementById("createPositionZ").value);
+        var positionZ = parseFloat(document.getElementById("createPositionY").value);
+        var velocityX = parseFloat(document.getElementById("createVelocityX").value) * VELOCITY_UI_FACTOR;
+        var velocityY = parseFloat(document.getElementById("createVelocityZ").value) * VELOCITY_UI_FACTOR;
+        var velocityZ = parseFloat(document.getElementById("createVelocityY").value) * VELOCITY_UI_FACTOR;
+        var mass = parseFloat(document.getElementById("createMass").value);
+        new Planet(universe, new THREE.Vector3(positionX, positionY, positionZ), new THREE.Vector3(velocityX, velocityY, velocityZ), mass);
     }, false);
 }
 
@@ -175,9 +175,9 @@ function init() {
 
     initFileUI(canvas);
     initMenu();
-    initCreatePlanetPopup();
     initSpeedPopup();
     initViewSettings();
+    initCreatePlanetPopup();
     initRandomPopup();
 
     try {
