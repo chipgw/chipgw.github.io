@@ -15,7 +15,7 @@ function Planet(universe, pos, vel, m) {
 
     this.updatePath = function() {
         if(this.path == undefined) {
-            this.resetPath();
+            this.initPath();
         } else if(this.path.vertices.length != pathLength){
             this.resizePath();
         }
@@ -31,7 +31,7 @@ function Planet(universe, pos, vel, m) {
     universe.scene.add(this.mesh);
     universe.planets.push(this);
 
-    this.resetPath = function() {
+    this.initPath = function() {
         this.path = new THREE.Geometry();
         while(this.path.vertices.length < pathLength) {
             this.path.vertices.push(this.mesh.position.clone());
