@@ -1,4 +1,4 @@
-var camera, controls, renderer, universe;
+var universe;
 
 function initFileUI(dropTarget) {
     document.getElementById("loadFile").addEventListener("change", function(e) {
@@ -155,12 +155,12 @@ function initRandomPopup() {
 }
 
 function init() {
-    renderer = new THREE.WebGLRenderer({antialias: true});
+    var renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x040406);
     var canvas = document.body.appendChild(renderer.domElement);
 
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000000);
+    var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000000);
     camera.position.z = 64;
 
     window.onresize = function(event) {
@@ -169,7 +169,7 @@ function init() {
         camera.updateProjectionMatrix();
     };
 
-    controls = new THREE.OrbitControls(camera, canvas);
+    var controls = new THREE.OrbitControls(camera, canvas);
 
     universe = new Universe();
 
