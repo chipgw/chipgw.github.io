@@ -1,7 +1,7 @@
 var pathLength = 256;
 var pathRecordDistance = 1.0;
 
-function Planet(universe, pos, vel, m) {
+function Planet(pos, vel, m) {
     this.velocity = vel.clone();
     this.mass = m;
     this.radius = 0.0;

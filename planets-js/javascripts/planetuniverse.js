@@ -131,7 +131,7 @@ function Universe() {
             var velocity = parseVector3(planetXML.getElementsByTagName("velocity")[0]);
             var mass = parseFloat(planetXML.getAttribute("mass"));
 
-            var planet = new Planet(this, position, velocity.multiplyScalar(VELOCITY_UI_FACTOR), mass);
+            var planet = new Planet(position, velocity.multiplyScalar(VELOCITY_UI_FACTOR), mass);
         }
 
         console.log("loaded " + planetsXML.length + " planets.");
