@@ -120,11 +120,11 @@ function initCreatePlanetPopup() {
 
     document.getElementById("createPlanetButton").addEventListener("click", function(e) {
         var positionX = parseFloat(document.getElementById("createPositionX").value);
-        var positionY = parseFloat(document.getElementById("createPositionZ").value);
-        var positionZ = parseFloat(document.getElementById("createPositionY").value);
+        var positionY = parseFloat(document.getElementById("createPositionY").value);
+        var positionZ = parseFloat(document.getElementById("createPositionZ").value);
         var velocityX = parseFloat(document.getElementById("createVelocityX").value) * VELOCITY_UI_FACTOR;
-        var velocityY = parseFloat(document.getElementById("createVelocityZ").value) * VELOCITY_UI_FACTOR;
-        var velocityZ = parseFloat(document.getElementById("createVelocityY").value) * VELOCITY_UI_FACTOR;
+        var velocityY = parseFloat(document.getElementById("createVelocityY").value) * VELOCITY_UI_FACTOR;
+        var velocityZ = parseFloat(document.getElementById("createVelocityZ").value) * VELOCITY_UI_FACTOR;
         var mass = parseFloat(document.getElementById("createMass").value);
         new Planet(new THREE.Vector3(positionX, positionY, positionZ), new THREE.Vector3(velocityX, velocityY, velocityZ), mass);
     }, false);
@@ -161,7 +161,8 @@ function init() {
     var canvas = document.body.appendChild(renderer.domElement);
 
     var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000000);
-    camera.position.z = 64;
+    camera.position.y = 64;
+    camera.up.set(0, 0, 1);
 
     window.onresize = function(event) {
         renderer.setSize(window.innerWidth, window.innerHeight);

@@ -1,6 +1,14 @@
 function parseVector3(node) {
-    /* Z is up in files, Y is up in three.js, so we switch them. */
-    return new THREE.Vector3(parseFloat(node.getAttribute("x")), parseFloat(node.getAttribute("z")), parseFloat(node.getAttribute("y")));
+    return new THREE.Vector3(parseFloat(node.getAttribute("x")), parseFloat(node.getAttribute("y")), parseFloat(node.getAttribute("z")));
+}
+
+/* for changing Y-up meshes to Z-up. */
+function swapYZ(verts) {
+    for(var i = 0; i < verts.length; ++i) {
+        var z = verts[i].y;
+        verts[i].y = -verts[i].z;
+        verts[i].z = z;
+    }
 }
 
 const GRAVITY_CONST = 6.67e-11;
@@ -10,7 +18,9 @@ function Universe() {
     this.scene = new THREE.Scene();
 
     this.sphere = new THREE.SphereGeometry(1, 64, 32);
+    swapYZ(this.sphere.vertices);
     this.wireframeSphere = new THREE.SphereGeometry(1.05, 16, 8);
+    swapYZ(this.wireframeSphere.vertices);
 
     this.planetMaterial = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture("images/planet.png") } );
     this.wireframeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe: true } );
