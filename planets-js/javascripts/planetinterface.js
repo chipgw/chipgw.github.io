@@ -155,10 +155,14 @@ function initRandomPopup() {
 }
 
 function init() {
-    var renderer = new THREE.WebGLRenderer({antialias: true});
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x040406);
-    var canvas = document.body.appendChild(renderer.domElement);
+    try {
+        var renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x040406);
+        var canvas = document.body.appendChild(renderer.domElement);
+    } catch (e) {
+        window.location.href = "error.html";
+    }
 
     var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000000);
     camera.position.y = 64;
