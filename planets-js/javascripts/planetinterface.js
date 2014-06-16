@@ -161,7 +161,8 @@ function init() {
         renderer.setClearColor(0x040406);
         var canvas = document.body.appendChild(renderer.domElement);
     } catch (e) {
-        window.location.href = "error.html";
+        document.body.innerHTML = "<h1>Sorry, you don't appear to have WebGL.</h1> You can try updating your graphics drivers or your browser.";
+        return;
     }
 
     var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000000);
