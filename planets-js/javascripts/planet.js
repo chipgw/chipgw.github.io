@@ -1,6 +1,3 @@
-var pathLength = 256;
-var pathRecordDistance = 1.0;
-
 function Planet(pos, vel, m) {
     this.velocity = vel.clone();
     this.mass = m;
@@ -16,10 +13,10 @@ function Planet(pos, vel, m) {
     this.updatePath = function() {
         if(this.path == undefined) {
             this.initPath();
-        } else if(this.path.vertices.length != pathLength){
+        } else if(this.path.vertices.length != universe.pathLength){
             this.resizePath();
         }
-        if(pathLength > 0 && this.mesh.position.distanceToSquared(this.path.vertices[0]) > pathRecordDistance) {
+        if(universe.pathLength > 0 && this.mesh.position.distanceToSquared(this.path.vertices[0]) > universe.pathRecordDistance) {
             this.path.vertices.pop();
             this.path.vertices.unshift(this.mesh.position.clone());
             this.path.verticesNeedUpdate = true;
@@ -33,7 +30,7 @@ function Planet(pos, vel, m) {
 
     this.initPath = function() {
         this.path = new THREE.Geometry();
-        while(this.path.vertices.length < pathLength) {
+        while(this.path.vertices.length < universe.pathLength) {
             this.path.vertices.push(this.mesh.position.clone());
         }
         this.path.dynamic = true;
@@ -53,9 +50,9 @@ function Planet(pos, vel, m) {
 
         this.path.vertices = oldPath;
 
-        if(this.path.vertices.length > pathLength) {
-            this.path.vertices.splice(pathLength, this.path.vertices.length - pathLength);
-        } else while(this.path.vertices.length < pathLength) {
+        if(this.path.vertices.length > universe.pathLength) {
+            this.path.vertices.splice(universe.pathLength, this.path.vertices.length - universe.pathLength);
+        } else while(this.path.vertices.length < universe.pathLength) {
             this.path.vertices.unshift(this.mesh.position.clone());
         }
         this.path.dynamic = true;

@@ -111,7 +111,7 @@ function initViewSettings() {
     initPopup("viewPopup");
 
     document.getElementById("pathLength").addEventListener("change", function(e) {
-        pathLength = parseFloat(e.target.value);
+        universe.pathLength = parseFloat(e.target.value);
     }, false);
 }
 

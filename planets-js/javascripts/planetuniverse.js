@@ -26,6 +26,9 @@ function Universe() {
     this.wireframeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe: true } );
     this.lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
 
+    this.pathLength = 256;
+    this.pathRecordDistance = 1.0;
+
     this.speed = 1000.0;
 
 //     this.selectedHighlight = new THREE.Mesh(this.wireframeSphere, this.wireframeMaterial);
