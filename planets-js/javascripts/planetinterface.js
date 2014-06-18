@@ -113,6 +113,10 @@ function initViewSettings() {
     document.getElementById("pathLength").addEventListener("change", function(e) {
         universe.pathLength = parseFloat(e.target.value);
     }, false);
+
+    document.getElementById("pathDistance").addEventListener("change", function(e) {
+        universe.pathRecordDistance = parseFloat(e.target.value);
+    }, false);
 }
 
 function initCreatePlanetPopup() {
