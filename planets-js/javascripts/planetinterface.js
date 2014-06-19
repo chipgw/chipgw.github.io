@@ -116,6 +116,7 @@ function initViewSettings() {
 
     document.getElementById("pathDistance").addEventListener("change", function(e) {
         universe.pathRecordDistance = parseFloat(e.target.value);
+        universe.pathRecordDistance *= universe.pathRecordDistance;
     }, false);
 }
 
