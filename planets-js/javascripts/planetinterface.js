@@ -31,10 +31,8 @@ function initFileUI(dropTarget) {
 
 function initMenu() {
     document.getElementById("menuClear").addEventListener("click", function(e) {
-        var clear = confirm("Are you sure you want to destroy the universe?")
-
-        if (clear) {
-        universe.clear();
+        if (confirm("Are you sure you want to destroy the universe?")) {
+            universe.clear();
         }
     }, false);
 
@@ -166,7 +164,8 @@ function init() {
         renderer.setClearColor(0x040406);
         var canvas = document.body.appendChild(renderer.domElement);
     } catch (e) {
-        document.body.innerHTML = "<h1>Sorry, you don't appear to have WebGL.</h1> You can try updating your graphics drivers or your browser.";
+        document.body.innerHTML = "<h1>Sorry, you don't appear to have WebGL.</h1>" +
+                                  "You can try updating your graphics drivers or your browser.";
         return;
     }
 
@@ -174,7 +173,7 @@ function init() {
     camera.position.y = 64;
     camera.up.set(0, 0, 1);
 
-    window.onresize = function(event) {
+    window.onresize = function(e) {
         renderer.setSize(window.innerWidth, window.innerHeight);
         camera.aspect = window.innerWidth / window.innerHeight
         camera.updateProjectionMatrix();

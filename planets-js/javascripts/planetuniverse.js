@@ -49,8 +49,10 @@ function Universe() {
                     var distancesqr = direction.lengthSq();
 
                     if(distancesqr < Math.pow(planet.radius + other.radius, 2)) {
-                        planet.mesh.position.addVectors(other.mesh.position.multiplyScalar(other.mass), planet.mesh.position.multiplyScalar(planet.mass));
-                        planet.velocity.addVectors(other.velocity.multiplyScalar(other.mass), planet.velocity.multiplyScalar(planet.mass));
+                        planet.mesh.position.addVectors(other.mesh.position.multiplyScalar(other.mass),
+                                                        planet.mesh.position.multiplyScalar(planet.mass));
+                        planet.velocity.addVectors(other.velocity.multiplyScalar(other.mass),
+                                                   planet.velocity.multiplyScalar(planet.mass));
                         planet.mass += other.mass;
                         planet.updateRadius();
                         planet.mesh.position.divideScalar(planet.mass);
