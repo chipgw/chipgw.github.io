@@ -179,6 +179,23 @@ function init() {
         camera.updateProjectionMatrix();
     };
 
+    var drag = false;
+    canvas.addEventListener("mousedown", function(e){
+        drag = false;
+    }, false);
+    canvas.addEventListener("mousemove", function(e){
+        drag = true;
+    }, false);
+
+    canvas.addEventListener("mouseup", function(e){
+        if(!drag){
+            /* TODO - add other clicking operations. */
+            if(e.button === 0) {
+                universe.selectUnder(e.clientX, e.clientY, canvas.clientWidth, canvas.clientHeight, camera);
+            }
+        }
+    }, false);
+
     var controls = new THREE.OrbitControls(camera, canvas);
 
     universe = new Universe();

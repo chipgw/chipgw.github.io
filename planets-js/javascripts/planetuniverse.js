@@ -31,8 +31,10 @@ function Universe() {
 
     this.speed = 1000.0;
 
-//     this.selectedHighlight = new THREE.Mesh(this.wireframeSphere, this.wireframeMaterial);
-//     this.scene.add(this.selectedHighlight);
+    this.selectedHighlight = new THREE.Mesh(this.wireframeSphere, this.wireframeMaterial);
+    this.scene.add(this.selectedHighlight);
+
+    this.selected = null;
 
     this.planets = [];
 
@@ -70,6 +72,14 @@ function Universe() {
                 planet.mesh.position.add(planet.velocity.clone().multiplyScalar(time));
                 planet.updatePath();
             }
+        }
+
+        if(this.selected !== null) {
+            this.selectedHighlight.position = this.selected.mesh.position;
+            this.selectedHighlight.scale.set(this.selected.radius, this.selected.radius, this.selected.radius);
+            this.selectedHighlight.visible = true;
+        } else {
+            this.selectedHighlight.visible = false;
         }
     }
 
@@ -150,5 +160,27 @@ function Universe() {
         }
 
         console.log("loaded " + planetsXML.length + " planets.");
+    }
+
+    this.selectUnder = function(x, y, w, h, camera) {
+        this.selected = null;
+
+        var mouse = new THREE.Vector3(2 * (x / w) - 1, 1 - 2 * (y / h));
+
+        var ray = (new THREE.Projector()).pickingRay(mouse.clone(), camera).ray;
+
+        var nearest = Infinity;
+
+        for(var i = 0; i < this.planets.length; ++i) {
+            var planet = this.planets[i];
+
+            var sphere = new THREE.Sphere(planet.mesh.position, planet.radius);
+            var dist = planet.mesh.position.distanceToSquared(ray.origin);
+
+            if(ray.isIntersectionSphere(sphere) && dist < nearest) {
+                nearest = dist;
+                this.selected = planet;
+            }
+        }
     }
 }
