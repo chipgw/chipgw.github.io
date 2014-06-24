@@ -59,7 +59,7 @@ function Universe() {
                         planet.updateRadius();
                         planet.mesh.position.divideScalar(planet.mass);
                         planet.velocity.divideScalar(planet.mass);
-                        planet.resetPath();
+                        planet.initPath();
                         this.remove(o);
                     } else {
                         direction.setLength(GRAVITY_CONST * ((other.mass * planet.mass) / distancesqr) * time);
