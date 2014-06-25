@@ -50,8 +50,8 @@ function initPopup(name, visible) {
     toggleButton.setAttribute("class", "popupToggle");
     popup.appendChild(toggleButton);
 
-    function toggle(e) {
-        if (style.display == "table") {
+    var toggle = function(e) {
+        if (style.display === "table") {
             style.display = "none";
             toggleButton.setAttribute("value", "\u25BC");
         } else {
@@ -81,7 +81,7 @@ function initSpeedPopup() {
 
     document.getElementById("speedPauseResume").addEventListener("click", function(e) {
         var range = document.getElementById("speedRange");
-        if (range.value == 0) {
+        if (range.value === 0) {
             /* TODO - store previous value toresume to. */
             range.value = 1000;
             e.target.value = "Pause";
@@ -94,7 +94,7 @@ function initSpeedPopup() {
 
     document.getElementById("speedFastForward").addEventListener("click", function(e) {
         var range = document.getElementById("speedRange");
-        if (range.value == 0 || range.value == range.max) {
+        if (range.value === 0 || range.value === range.max) {
             /* TODO - store previous value toresume to. */
             range.value = 1000;
         } else {
@@ -142,7 +142,7 @@ function initRandomPopup() {
         var maxSpeed = parseFloat(document.getElementById("randomSpeed").value) * VELOCITY_UI_FACTOR;
         var maxMass = parseFloat(document.getElementById("randomMass").value);
 
-        function rand() {
+        var rand = function() {
             return Math.random() * 2.0 - 1.0;
         }
 
@@ -213,8 +213,8 @@ function init() {
 
     var lastTime = null;
 
-    function animate(time) {
-        if(lastTime == null){
+    var animate = function(time) {
+        if(lastTime === null){
             lastTime = time;
         }
         var delta = Math.min(time - lastTime, 10.0);

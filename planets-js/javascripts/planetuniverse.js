@@ -92,7 +92,7 @@ function Universe() {
     }
 
     this.clear = function() {
-        while(this.planets.length != 0) {
+        while(this.planets.length !== 0) {
             this.remove(0);
         }
     }
@@ -142,7 +142,7 @@ function Universe() {
     this.loadDOM = function(parsed) {
         var planetsXML = parsed.getElementsByTagName("planet");
 
-        if(planetsXML.length == 0){
+        if(planetsXML.length === 0){
             alert("Error loading simulation: no planets found!\nIs the file a valid universe file?");
             return;
         }

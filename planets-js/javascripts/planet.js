@@ -11,9 +11,9 @@ function Planet(pos, vel, m) {
     }
 
     this.updatePath = function() {
-        if(this.path == undefined) {
+        if(this.path === undefined) {
             this.initPath();
-        } else if(this.path.vertices.length != universe.pathLength){
+        } else if(this.path.vertices.length !== universe.pathLength){
             this.resizePath();
         }
         if(universe.pathLength > 1 && this.mesh.position.distanceToSquared(this.path.vertices[1]) > universe.pathRecordDistance) {
@@ -42,7 +42,7 @@ function Planet(pos, vel, m) {
 
         this.path.dynamic = true;
 
-        if(this.line != null) {
+        if(this.line !== null) {
             universe.scene.remove(this.line);
         }
 
