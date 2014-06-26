@@ -5,9 +5,7 @@ function Planet(pos, vel, m) {
 
     this.updateRadius = function() {
         this.radius = Math.pow((3.0 * this.mass / 4.0) * Math.PI, 1.0 / 3.0);
-        this.mesh.scale.x =  this.radius;
-        this.mesh.scale.y =  this.radius;
-        this.mesh.scale.z =  this.radius;
+        this.mesh.scale.set(this.radius, this.radius, this.radius);
     }
 
     this.updatePath = function() {
