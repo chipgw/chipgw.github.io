@@ -118,7 +118,7 @@ function Universe() {
 
             planet.mesh.position.sub(averagePosition);
             planet.velocity.sub(averageVelocity);
-            planet.resetPath();
+            planet.initPath();
         }
     }
 
