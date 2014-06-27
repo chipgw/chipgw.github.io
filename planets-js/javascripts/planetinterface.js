@@ -39,6 +39,10 @@ function initMenu() {
     document.getElementById("menuCenter").addEventListener("click", function(e) {
         universe.center();
     }, false);
+
+    document.getElementById("menuDelete").addEventListener("click", function(e) {
+        universe.remove(universe.selected);
+    }, false);
 }
 
 function initPopup(name, visible) {

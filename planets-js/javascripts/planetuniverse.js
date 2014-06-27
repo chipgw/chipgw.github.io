@@ -83,10 +83,23 @@ function Universe() {
         }
     }
 
-    this.remove = function(index) {
-        if(index < this.planets.length) {
+    this.remove = function(target) {
+        var index = -1;
+
+        if(typeof target === 'number') {
+            index = target;
+        } else {
+            index = this.planets.indexOf(target);
+        }
+
+        if(index > -1 && index < this.planets.length) {
             this.scene.remove(this.planets[index].mesh);
             this.scene.remove(this.planets[index].line);
+
+            if(this.selected === this.planets[index]) {
+                this.selected = null;
+            }
+
             this.planets.splice(index, 1);
         }
     }
