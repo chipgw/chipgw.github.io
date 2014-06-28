@@ -43,6 +43,10 @@ function initMenu() {
     document.getElementById("menuDelete").addEventListener("click", function(e) {
         universe.remove(universe.selected);
     }, false);
+
+    document.getElementById("menuStop").addEventListener("click", function(e) {
+        universe.selected.velocity.set(0.0, 0.0, 0.0);
+    }, false);
 }
 
 function initPopup(name, visible) {
