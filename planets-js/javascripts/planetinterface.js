@@ -219,6 +219,8 @@ function init() {
         universe.loadUrl("systems/default.xml");
     } catch (e) { }
 
+    document.getElementById("loading").outerHTML = "";
+
     var lastTime = null;
 
     var animate = function(time) {
