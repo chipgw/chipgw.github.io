@@ -22,7 +22,8 @@ function Universe() {
     this.wireframeSphere = new THREE.SphereGeometry(1.05, 16, 8);
     swapYZ(this.wireframeSphere.vertices);
 
-    this.planetMaterial = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture("images/planet.png") } );
+    this.planetTexture = THREE.ImageUtils.loadTexture("images/planet.png", null, function() { document.getElementById("loading").outerHTML = ""; });
+    this.planetMaterial = new THREE.MeshBasicMaterial( { map: this.planetTexture } );
     this.wireframeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe: true } );
     this.lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
 
