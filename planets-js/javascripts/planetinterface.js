@@ -89,8 +89,8 @@ function initSpeedPopup() {
 
     document.getElementById("speedPauseResume").addEventListener("click", function(e) {
         var range = document.getElementById("speedRange");
-        if (range.value === 0) {
-            /* TODO - store previous value toresume to. */
+        if (parseFloat(range.value) === 0.0) {
+            /* TODO - store previous value to resume to. */
             range.value = 1000;
             e.target.value = "Pause";
         } else {
@@ -102,8 +102,8 @@ function initSpeedPopup() {
 
     document.getElementById("speedFastForward").addEventListener("click", function(e) {
         var range = document.getElementById("speedRange");
-        if (range.value === 0 || range.value === range.max) {
-            /* TODO - store previous value toresume to. */
+        var value = parseFloat(range.value);
+        if (value === 0.0 || value === parseFloat(range.max)) {
             range.value = 1000;
         } else {
             range.value = range.value * 2;
