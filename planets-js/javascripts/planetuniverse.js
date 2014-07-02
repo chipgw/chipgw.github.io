@@ -127,12 +127,14 @@ function Universe() {
         averagePosition.divideScalar(totalMass);
         averageVelocity.divideScalar(totalMass);
 
-        for(var i = 0; i < this.planets.length; ++i) {
-            var planet = this.planets[i];
+        if(averagePosition.lengthSq() > 1.0e-16 || averageVelocity.lengthSq() > 1.0e-32) {
+            for(var i = 0; i < this.planets.length; ++i) {
+                var planet = this.planets[i];
 
-            planet.mesh.position.sub(averagePosition);
-            planet.velocity.sub(averageVelocity);
-            planet.initPath();
+                planet.mesh.position.sub(averagePosition);
+                planet.velocity.sub(averageVelocity);
+                planet.initPath();
+            }
         }
     }
 
