@@ -165,6 +165,15 @@ function initRandomPopup() {
     }, false);
 }
 
+const PlacingState = {
+    None: 0,
+    FreePositionXY: 1,
+    FreePositionZ: 2,
+    FreeVelocity: 3
+}
+var placingState = PlacingState.None;
+var placing = {}
+
 function init() {
     try {
         var renderer = new THREE.WebGLRenderer({antialias: true});
@@ -193,13 +202,46 @@ function init() {
     }, false);
     canvas.addEventListener("mousemove", function(e){
         drag = true;
+
+        event.preventDefault();
+
+        switch(placingState){
+        case PlacingState.None:
+        default:
+            /* Nothing to see here... */
+            break;
+        case PlacingState.FreePositionXY:
+            var mouse3D = NormalizeScreenCoord(e.clientX, e.clientY, canvas.clientWidth, canvas.clientHeight);
+//             projector.unprojectVector(mouse3D, camera);
+            
+            break;
+        case PlacingState.FreePositionZ:
+            
+            break;
+        case PlacingState.FreeVelocity:
+            
+            break;
+        }
     }, false);
 
     canvas.addEventListener("mouseup", function(e){
         if(!drag){
-            /* TODO - add other clicking operations. */
             if(e.button === 0) {
-                universe.selectUnder(e.clientX, e.clientY, canvas.clientWidth, canvas.clientHeight, camera);
+                switch(placingState){
+                case PlacingState.None:
+                default:
+                    universe.selectUnder(e.clientX, e.clientY, canvas.clientWidth, canvas.clientHeight, camera);
+                    break;
+                case PlacingState.FreePositionXY:
+                    placingState = PlacingState.FreePositionZ;
+                    break;
+                case PlacingState.FreePositionZ:
+                    placingState = PlacingState.FreeVelocity;
+                    break;
+                case PlacingState.FreeVelocity:
+                    placingState = PlacingState.None;
+                    break;
+                }
             }
         }
     }, false);
@@ -228,7 +270,11 @@ function init() {
         var delta = Math.min(time - lastTime, 10.0);
         lastTime = time;
 
-        universe.advance(delta);
+        controls.enabled = (placingState === PlacingState.None);
+
+        if (controls.enabled) {
+            universe.advance(delta);
+        }
 
         controls.update();
 

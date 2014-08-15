@@ -181,7 +181,7 @@ function Universe() {
     this.selectUnder = function(x, y, w, h, camera) {
         this.selected = null;
 
-        var mouse = new THREE.Vector3(2 * (x / w) - 1, 1 - 2 * (y / h));
+        var mouse = NormalizeScreenCoord(x, y, w, h);
 
         var ray = (new THREE.Projector()).pickingRay(mouse.clone(), camera).ray;
 
