@@ -18,6 +18,7 @@
     <div class="menu">
       <input type="button" id="menuOpenFile" value="Open File">
       <input type="button" id="menuSaveFile" value="Save File">
+      <input type="button" id="menuGetURL" value="Get URL">
       <input type="button" id="menuDelete" value="Delete Selected">
       <input type="button" id="menuStop" value="Stop Selected">
       <input type="button" id="menuClear" value="Clear Universe">
@@ -142,6 +143,23 @@
           </tr>
         </table>
       </div>
+      <div id="firingPopup">
+      <h1>Firing Mode</h1>
+        <table>
+          <tr>
+            <th>Mass:</th>
+            <th><input type="number" class="tableInput" id="firingMass" min="0" max="1000" value="1"></th>
+          </tr>
+          <tr>
+            <th>Speed:</th>
+            <th><input type="number" class="tableInput" id="firingSpeed" min="0" max="50" value="10"></th>
+          </tr>
+          <tr>
+            <!-- TODO - Somehow give feedback on whether it is currently enabled. -->
+            <th colspan="2"><input type="button" class="tableInput" id="toggleFiringButton" value="Toggle Firing Mode"></th>
+          </tr>
+        </table>
+      </div>
       <div id="localStoragePopup">
         <h1>Saves</h1>
         <table id="savesList"></table>
@@ -199,10 +217,11 @@
     }
     </script>
 
+    <script src="scripts/thirdparty/FileSaver.min.js"></script>
+    <script src="scripts/thirdparty/lz-string.min.js"></script>
     <script src="scripts/planets-webgl.js"></script>
     <script src="scripts/planets-io.js"></script>
     <script src="scripts/planets-interface.js"></script>
     <script src="scripts/Planets3D_js.js"></script>
-    <script src="scripts/FileSaver.min.js"></script>
   </body>
 </html>

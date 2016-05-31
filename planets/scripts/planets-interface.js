@@ -1,5 +1,7 @@
 var universe, camera, placing;
 
+var gamepad;
+
 function initFileUI(dropTarget) {
     document.getElementById("loadFile").addEventListener("change", function(e) {
         loadFile(e.target.files[0]);
@@ -12,6 +14,10 @@ function initFileUI(dropTarget) {
 
     document.getElementById("menuSaveFile").addEventListener("click", function(e) {
         downloadDOM(generateDOM());
+    }, false);
+
+    document.getElementById("menuGetURL").addEventListener("click", function(e) {
+        window.prompt("Sharable URL:", location.protocol + '//' + location.host + location.pathname + "?" + getBase64());
     }, false);
 
     dropTarget.addEventListener("dragenter", function(e) {
@@ -142,7 +148,7 @@ function initSpeedPopup() {
 }
 
 function initViewSettings() {
-    initPopup("viewPopup");
+    initPopup("viewPopup", true);
 
     document.getElementById("pathLength").addEventListener("change", function(e) {
         universe.pathLength = e.target.valueAsNumber;
@@ -226,6 +232,22 @@ function initRandomPopup() {
     }, false);
 }
 
+function initFiringPopup() {
+    initPopup("firingPopup");
+
+    document.getElementById("toggleFiringButton").addEventListener("click", function(e) {
+        placing.enableFiringMode(placing.step !== Module.PlacingStep.Firing);
+    }, false);
+
+    document.getElementById("firingMass").addEventListener("change", function(e) {
+        placing.firingMass = e.target.valueAsNumber;
+    }, false);
+
+    document.getElementById("firingSpeed").addEventListener("change", function(e) {
+        placing.firingSpeed = e.target.valueAsNumber / universe.velocityfac;
+    }, false);
+}
+
 function initLocalStoragePopup() {
     initPopup("localStoragePopup");
 
@@ -305,8 +327,6 @@ var Module = {
     onRuntimeInitialized: function() {
         var canvas = document.getElementById("canvas");
 
-        console.log("init");
-
         initGL();
 
         window.onresize = function(e) {
@@ -321,6 +341,9 @@ var Module = {
         camera = new Module.Camera(universe);
 
         placing = new Module.PlacingInterface(universe);
+
+        gamepad = new Module.Gamepad(universe, camera, placing);
+        gamepad.init();
 
         /* To track the button being pressed during mousemove. */
         var button = -1;
@@ -408,14 +431,20 @@ var Module = {
         initCameraControls();
         initCreatePlanetPopup();
         initRandomPopup();
+        initFiringPopup();
         initLocalStoragePopup();
 
         /* Call this once to make sure it's the right size. */
         window.onresize();
 
         try {
-            loadUrl("systems/default.xml");
-        } catch (e) { }
+            /* Attempt to load from URL. */
+            loadBase64(window.location.search.substring(1));
+        } catch (e) {
+            try {
+                loadUrl("systems/default.xml");
+            } catch (e) { }
+        }
 
         document.body.removeChild(document.getElementById("loading"));
 

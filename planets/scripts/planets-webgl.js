@@ -181,7 +181,16 @@ function paint() {
             GLctx.uniformMatrix4fv(colorModelMat, false, placing.getOrbitedCircleMat());
             spheres.drawCircle();
         }
-        /* TODO - Draw free velocity arrow. */
+
+        if (placing.step === Module.PlacingStep.FreeVelocity) {
+            var length = placing.getArrowLength() / universe.velocityfac;
+
+            GLctx.uniformMatrix4fv(colorModelMat, false, placing.getArrowMat());
+
+            GLctx.uniform4fv(colorColor, [1.0, 1.0, 1.0, 1.0]);
+
+            spheres.drawArrow(length);
+        }
     } else if (universe.isSelectedValid()) {
         var pos = universe.getPlanetPosition(universe.selected);
         var radius = universe.getPlanetRadius(universe.selected) * 1.02;
@@ -193,7 +202,7 @@ function paint() {
 
         GLctx.uniformMatrix4fv(colorModelMat, false, planetMat);
 
-        spheres.drawWire()
+        spheres.drawWire();
     }
 
     if (grid.enabled) {
@@ -242,10 +251,14 @@ function animate(time) {
     if (lastTime === null)
         lastTime = time;
 
-    var delta = Math.min(time - lastTime, 10.0);
+    var delta = Math.min(time - lastTime, 10.0) * 1000;
     lastTime = time;
 
-    universe.advance(delta * 1000);
+    if (placing.step === Module.PlacingStep.NotPlacing || placing.step === Module.PlacingStep.Firing)
+        universe.advance(delta);
+
+    gamepad.pollInput();
+    gamepad.doAxisInput(delta);
 
     paint();
 
