@@ -183,7 +183,7 @@ function paint() {
         }
 
         if (placing.step === Module.PlacingStep.FreeVelocity) {
-            var length = placing.getArrowLength() / universe.velocityfac;
+            var length = placing.getArrowLength() / universe.velocityfac();
 
             GLctx.uniformMatrix4fv(colorModelMat, false, placing.getArrowMat());
 
@@ -219,7 +219,7 @@ function paint() {
         var color = grid.color;
         color[3] *= grid.alphafac;
 
-        var gridMat = makeMat(grid.scale, [0.0, 0.0, 0.0]);
+        var gridMat = makeMat([0.0, 0.0, 0.0], grid.scale);
 
         GLctx.uniformMatrix4fv(colorModelMat, false, gridMat);
 
