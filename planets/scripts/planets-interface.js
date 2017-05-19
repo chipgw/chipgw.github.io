@@ -341,11 +341,47 @@ function initLocalStoragePopup() {
     updateList();
 }
 
+function loadSettings() {
+    if (typeof(Storage) !== "undefined") {
+        var settings = JSON.parse(localStorage.getItem("planetsjs-settings"));
+
+        if (settings === null)
+            return;
+
+        function handleSetting(setting, element, prop) {
+            if (setting !== "undefined") {
+                var el = document.getElementById(element)
+                el[prop] = setting;
+                el.dispatchEvent(new Event('change'));
+            }
+        }
+
+        handleSetting(settings.enableGrid, "drawGrid", "checked");
+        handleSetting(settings.gridRange, "gridSize", "value");
+        handleSetting(settings.enableTrails, "drawTrails", "checked");
+        handleSetting(settings.trailLength, "pathLength", "value");
+        handleSetting(settings.trailDelta, "pathDistance", "value");
+    }
+}
+
+function saveSettings() {
+    if (typeof(Storage) !== "undefined") {
+        var settings = {
+            enableGrid: document.getElementById("drawGrid").checked,
+            gridRange: document.getElementById("gridSize").value,
+            enableTrails: document.getElementById("drawTrails").checked,
+            trailLength: document.getElementById("pathLength").value,
+            trailDelta: document.getElementById("pathDistance").value
+        };
+        localStorage.setItem("planetsjs-settings", JSON.stringify(settings));
+    }
+}
+
 var Module = {
     onRuntimeInitialized: function() {
         var canvas = document.getElementById("canvas");
 
-        initGL();
+        var initGLPromise = initGL();
 
         window.onresize = function(e) {
             canvas.width = window.innerWidth;
@@ -467,8 +503,18 @@ var Module = {
             } catch (e) { }
         }
 
-        document.body.removeChild(document.getElementById("loading"));
+        loadSettings();
 
-        requestAnimationFrame(animate);
+        window.addEventListener("beforeunload", saveSettings);
+
+        function startAnimating() {
+            document.body.removeChild(document.getElementById("loading"));
+
+            requestAnimationFrame(animate);
+        }
+
+        /* Don't start animating until the textures finish loading.
+         * Even if one fails we carry on, an error message has already been shown. */
+        initGLPromise.then(startAnimating, startAnimating);
     }
 }

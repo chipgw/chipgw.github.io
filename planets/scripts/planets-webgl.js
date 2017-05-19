@@ -18,9 +18,9 @@ function initShader(element) {
         return null;
 
     var shader;
-    if (element.type == "x-shader/x-vertex")
+    if (element.type === "x-shader/x-vertex")
         shader = GLctx.createShader(GLctx.VERTEX_SHADER);
-    else if (element.type == "x-shader/x-fragment")
+    else if (element.type === "x-shader/x-fragment")
         shader = GLctx.createShader(GLctx.FRAGMENT_SHADER);
     else
         return null;
@@ -28,8 +28,9 @@ function initShader(element) {
     var source = "";
     var child = element.firstChild;
 
+    /* Join al element children to get the full shader source code. */
     while (child) {
-        if (child.nodeType == 3)
+        if (child.nodeType === 3)
             source += child.textContent;
         child = child.nextSibling;
     }
@@ -100,8 +101,14 @@ function initGL() {
     textureModelMat = GLctx.getUniformLocation(textureShader, "modelMatrix");
     textureLightDir = GLctx.getUniformLocation(textureShader, "lightDir");
 
-    planetTextureDiff = loadTexture("images/planet_diffuse.png");
-    planetTextureNrm = loadTexture("images/planet_nrm.png");
+    var planetTextureDiffPromise = loadTexture("images/planet_diffuse.png");
+    var planetTextureNrmPromise = loadTexture("images/planet_nrm.png");
+    planetTextureDiffPromise.then(function(texture) {
+        planetTextureDiff = texture;
+    })
+    planetTextureNrmPromise.then(function(texture) {
+        planetTextureNrm = texture;
+    })
 
     GLctx.uniform1i(GLctx.getUniformLocation(textureShader, "texture_diff"), 0);
     GLctx.uniform1i(GLctx.getUniformLocation(textureShader, "texture_nrm"), 1);
@@ -109,23 +116,31 @@ function initGL() {
     spheres = new Module.Spheres();
 
     grid = new Module.Grid();
+
+    return Promise.all([planetTextureDiffPromise, planetTextureNrmPromise]);
 }
 
 function loadTexture(filename) {
-    var image = new Image();
-    var texture = GLctx.createTexture();
+    return new Promise(function(resolve, reject) {
+        var image = new Image();
+        var texture = GLctx.createTexture();
 
-    image.onload = function() {
-        GLctx.bindTexture(GLctx.TEXTURE_2D, texture);
-        GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, image);
+        image.onload = function() {
+            GLctx.bindTexture(GLctx.TEXTURE_2D, texture);
+            GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, image);
 
-        GLctx.generateMipmap(GLctx.TEXTURE_2D);
-        GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MAG_FILTER, GLctx.LINEAR);
-        GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MIN_FILTER, GLctx.LINEAR_MIPMAP_LINEAR);
-    }
-    image.src = filename;
+            GLctx.generateMipmap(GLctx.TEXTURE_2D);
+            GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MAG_FILTER, GLctx.LINEAR);
+            GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MIN_FILTER, GLctx.LINEAR_MIPMAP_LINEAR);
+            resolve(texture)
+        }
+        image.onerror = function() {
+            alert("Image \"" + filename + "\" failed to load! Planets may not render correctly.");
+            reject()
+        }
 
-    return texture;
+        image.src = filename;
+    })
 }
 
 function paint() {
@@ -214,6 +229,7 @@ function paint() {
 
         grid.bind();
 
+        /* Don't write to depth buffer. */
         GLctx.depthMask(false);
 
         var color = grid.color;
@@ -225,6 +241,7 @@ function paint() {
 
         GLctx.uniform4fv(colorColor, color);
 
+        /* Draw the large grid. */
         grid.draw();
 
         /* Modify the matrix to be half the size. */
@@ -234,12 +251,14 @@ function paint() {
         color[3] = grid.color[3] - color[3];
         GLctx.uniform4fv(colorColor, color);
 
+        /* Draw the small grid. */
         grid.draw();
 
         GLctx.depthMask(true);
     }
 
     if (document.getElementById("drawTrails").checked) {
+        /* Trails are in world space. */
         GLctx.uniformMatrix4fv(colorModelMat, false, IDENTITY_MATRIX);
         GLctx.uniform4fv(colorColor, [1.0, 1.0, 1.0, 1.0]);
 
@@ -258,7 +277,7 @@ function animate(time) {
     var delta = Math.min(time - lastTime, 10.0) * 1000;
     lastTime = time;
 
-    /* We don't advancewhen placing. */
+    /* We don't advance when placing. */
     if (placing.step === Module.PlacingStep.NotPlacing || placing.step === Module.PlacingStep.Firing)
         universe.advance(delta);
 
